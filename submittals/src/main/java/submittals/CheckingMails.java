@@ -6,77 +6,73 @@ import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.NoSuchProviderException;
-import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Store;
 
 public class CheckingMails {
 
-   public static void check(String host, String storeType, String user,
-      String password) 
-   {
-      try {
+	public static void check(String host, String storeType, String user, String password) {
+		try {
 
-      //create properties field
-      Properties properties = new Properties();
+			// create properties field
+			Properties properties = new Properties();
 
-      properties.put("mail.pop3.host", host);
-      properties.put("mail.pop3.port", "995");
-      properties.put("mail.pop3.starttls.enable", "true");
-      Session emailSession = Session.getInstance(properties,
-    		     new javax.mail.Authenticator() {
-    		        protected PasswordAuthentication getPasswordAuthentication() {
-    		           return new PasswordAuthentication(
-    		              "besnik.palluqi@gmail.com", "Darkmoon35");
-    		        }
-    		     });
-  
-      //create the POP3 store object and connect with the pop server
-      Store store = emailSession.getStore("pop3s");
+			properties.put("mail.pop3.host", host);
+			properties.put("mail.pop3.port", "995");
+			properties.put("mail.pop3.starttls.enable", "true");
+			Session emailSession = Session.getDefaultInstance(properties);
 
-      store.connect(host, user, password);
+			// create the POP3 store object and connect with the pop server
+			Store store = emailSession.getStore("pop3s");
 
-      //create the folder object and open it
-      Folder emailFolder = store.getFolder("INBOX");
-      emailFolder.open(Folder.READ_ONLY);
+			store.connect(host, user, password);
 
-      // retrieve the messages from the folder in an array and print it
-      Message[] messages = emailFolder.getMessages();
-      System.out.println("messages.length---" + messages.length);
+			// create the folder object and open it
+			Folder emailFolder = store.getFolder("INBOX");
+			emailFolder.open(Folder.READ_ONLY);
 
-      for (int i = 0, n = messages.length; i < n; i++) {
-         Message message = messages[i];
-         System.out.println("---------------------------------");
-         System.out.println("Email Number " + (i + 1));
-         System.out.println("Subject: " + message.getSubject());
-         System.out.println("From: " + message.getFrom()[0]);
-         System.out.println("Text: " + message.getContent().toString());
+			// retrieve the messages from the folder in an array and print it
+			Message[] messages = emailFolder.getMessages();
+			System.out.println("messages.length---" + messages.length);
 
-      }
+			for (int i = 0, n = messages.length; i < n; i++) {
+				Message message = messages[i];
+				System.out.println("---------------------------------");
+				System.out.println("Email Number " + (i + 1));
+				System.out.println("Subject: " + message.getSubject());
+				System.out.println("From: " + message.getFrom()[0]);
+				System.out.println("Text: " + message.getContent().toString());
 
-      //close the store and folder objects
-      emailFolder.close(false);
-      store.close();
+			}
 
-      } catch (NoSuchProviderException e) {
-         e.printStackTrace();
-      } catch (MessagingException e) {
-         e.printStackTrace();
-      } catch (Exception e) {
-         e.printStackTrace();
-      }
-   }
+			// close the store and folder objects
+			emailFolder.close(false);
+			store.close();
 
-   public static void main(String[] args) {
+		} catch (NoSuchProviderException e) {
+			e.printStackTrace();
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-	  System.out.println("@@ enter");
-      String host = "pop.gmail.com";// change accordingly
-      String mailStoreType = "pop3";
-      String username = "besnik.palluqi@gmail.com";// change accordingly
-      String password = "Darkmoon35";// change accordingly
+	public static void main(String[] args) {
 
-      check(host, mailStoreType, username, password);
+		System.out.println("@@ enter");
+		long startTime = System.currentTimeMillis();
+		String host = "pop.gmail.com";// change accordingly
+		String mailStoreType = "pop3";
+		String username = "besnik.palluqi@gmail.com";// change accordingly
+		String password = "Darkmoon35";// change accordingly
 
-   }
+		check(host, mailStoreType, username, password);
+		long endTime = System.currentTimeMillis();
+
+		long executeTime = endTime - startTime;
+
+		System.out.println("Time: "+executeTime);
+	}
 
 }
