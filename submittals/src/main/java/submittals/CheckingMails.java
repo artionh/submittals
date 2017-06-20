@@ -6,6 +6,7 @@ import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.NoSuchProviderException;
+import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Store;
 
@@ -22,7 +23,13 @@ public class CheckingMails {
       properties.put("mail.pop3.host", host);
       properties.put("mail.pop3.port", "995");
       properties.put("mail.pop3.starttls.enable", "true");
-      Session emailSession = Session.getDefaultInstance(properties);
+      Session emailSession = Session.getInstance(properties,
+    		     new javax.mail.Authenticator() {
+    		        protected PasswordAuthentication getPasswordAuthentication() {
+    		           return new PasswordAuthentication(
+    		              "besnik.palluqi@gmail.com", "Darkmoon35");
+    		        }
+    		     });
   
       //create the POP3 store object and connect with the pop server
       Store store = emailSession.getStore("pop3s");
