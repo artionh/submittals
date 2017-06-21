@@ -1,4 +1,4 @@
-package submittals;
+package com.w2020.submittals.service;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
