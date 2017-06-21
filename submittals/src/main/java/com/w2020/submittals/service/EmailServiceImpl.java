@@ -13,6 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class EmailServiceImpl {
+public class EmailServiceImpl implements EmailService{
 
 }
