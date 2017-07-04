@@ -1,9 +1,14 @@
 package com.w2020.submittals.service;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import javax.mail.Address;
+import javax.mail.BodyPart;
+import javax.mail.Flags;
 import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -12,6 +17,9 @@ import javax.mail.NoSuchProviderException;
 import javax.mail.Part;
 import javax.mail.Session;
 import javax.mail.Store;
+import javax.mail.Flags.Flag;
+import javax.mail.search.FlagTerm;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import com.w2020.submittals.pojo.Email;
 
@@ -20,7 +28,8 @@ public class CheckingMails {
 
 	public static List<Email> getEmails() {
 
-		Properties properties = new Properties();
+		Properties props = System.getProperties();
+		props.setProperty("mail.store.protocol", "imaps");
 		/*
 		 * Properties emailProperties = new Properties(); InputStream input =
 		 * null;
@@ -33,18 +42,14 @@ public class CheckingMails {
 		 */
 
 		try {
-			properties.put("mail.store.protocol", "pop3");
-			properties.put("mail.pop3.host", "pop.gmail.com");
-			properties.put("mail.pop3.port", "995");
-			properties.put("mail.pop3.starttls.enable", "true");
-			Session emailSession = Session.getDefaultInstance(properties);
+			Session session = Session.getDefaultInstance(props, null);
 
-			Store store = emailSession.getStore("pop3s");
+			Store store = session.getStore("imaps");
 			store.connect("pop.gmail.com", "besnik.palluqi@gmail.com", "Darkmoon35");
 			Folder emailFolder = store.getFolder("INBOX");
 			emailFolder.open(Folder.READ_ONLY);
 
-			Message[] messages = emailFolder.getMessages();
+			Message[] messages = emailFolder.search(new FlagTerm(new Flags(Flag.SEEN), false));
 			System.out.println("messages.length---" + messages.length);
 
 			List<Email> emailList = new ArrayList<Email>();
@@ -64,7 +69,7 @@ public class CheckingMails {
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
-		}	
+		}
 		return null;
 	}
 
@@ -73,13 +78,28 @@ public class CheckingMails {
 		List<Address> from = new ArrayList<Address>();
 		List<Address> to = new ArrayList<Address>();
 		Email email = new Email();
+		List<File> attachments = new ArrayList<File>();
 
 		if (part.isMimeType("multipart/*")) {
-			Multipart mp = (Multipart) part.getContent();
-			for (int i = 0; i < mp.getCount(); i++) {
-
+			Multipart multipart = (Multipart) message.getContent();
+			for (int i = 0; i < multipart.getCount(); i++) {
+				BodyPart bodyPart = multipart.getBodyPart(i);
+				if (!Part.ATTACHMENT.equalsIgnoreCase(bodyPart.getDisposition())
+						&& !StringUtils.isNotBlank(bodyPart.getFileName())) {
+					continue;
+				}
+				InputStream is = bodyPart.getInputStream();
+				File f = new File("/tmp/" + bodyPart.getFileName());
+				FileOutputStream fos = new FileOutputStream(f);
+				byte[] buf = new byte[4096];
+				int bytesRead;
+				while ((bytesRead = is.read(buf)) != -1) {
+					fos.write(buf, 0, bytesRead);
+				}
+				fos.close();
+				attachments.add(f);
 			}
-			// get Atachments
+
 		}
 
 		if (message.getFrom() != null)
@@ -101,32 +121,10 @@ public class CheckingMails {
 		if (part.getContent() != null) {
 			email.setText(part.getContent().toString());
 		}
-		
-	/*	List<File> attachments = new ArrayList<File>();
-		for (Message message : temp) {
-		    Multipart multipart = (Multipart) message.getContent();
-		    // System.out.println(multipart.getCount());
-
-		    for (int i = 0; i < multipart.getCount(); i++) {
-		        BodyPart bodyPart = multipart.getBodyPart(i);
-		        if(!Part.ATTACHMENT.equalsIgnoreCase(bodyPart.getDisposition()) &&
-		               !StringUtils.isNotBlank(bodyPart.getFileName())) {
-		            continue; // dealing with attachments only
-		        } 
-		        InputStream is = bodyPart.getInputStream();
-		        File f = new File("/tmp/" + bodyPart.getFileName());
-		        FileOutputStream fos = new FileOutputStream(f);
-		        byte[] buf = new byte[4096];
-		        int bytesRead;
-		        while((bytesRead = is.read(buf))!=-1) {
-		            fos.write(buf, 0, bytesRead);
-		        }
-		        fos.close();
-		        attachments.add(f);
-		    }*/
 
 		email.setFrom(from);
 		email.setTo(to);
+		email.setAtachments(attachments);
 
 		return email;
 
