@@ -1,12 +1,16 @@
 package com.w2020.submittals.pojo;
 
+import java.util.List;
+
 import javax.mail.Address;
 
 public class Email {
-	
+
 	private String Subject;
-	private Address From;
+	private List<Address> From;
+	private List<Address> To;
 	private String Text;
+	private List<String> atachments;
 
 	public String getSubject() {
 		return Subject;
@@ -14,14 +18,6 @@ public class Email {
 
 	public void setSubject(String subject) {
 		Subject = subject;
-	}
-
-	public Address getFrom() {
-		return From;
-	}
-
-	public void setFrom(Address address) {
-		From = address;
 	}
 
 	public String getText() {
@@ -32,9 +28,35 @@ public class Email {
 		Text = text;
 	}
 
-	@Override
-	public String toString() {
-		return "Email [Subject=" + Subject + ", From=" + From + ", Text=" + Text + "]";
+	public List<Address> getFrom() {
+		return From;
 	}
 
+	public void setFrom(List<Address> from) {
+		From = from;
+	}
+
+	public List<Address> getTo() {
+		return To;
+	}
+
+	public void setTo(List<Address> to) {
+		To = to;
+	}
+
+	public List<String> getAtachments() {
+		return atachments;
+	}
+
+	public void setAtachments(List<String> atachments) {
+		this.atachments = atachments;
+	}
+
+	@Override
+	public String toString() {
+		return "Email [Subject=" + Subject + ", From=" + From + ", To=" + To + ", Text=" + Text + ", atachments="
+				+ atachments + "]";
+	}
+
+	
 }

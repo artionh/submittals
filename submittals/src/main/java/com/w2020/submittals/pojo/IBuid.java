@@ -28,6 +28,7 @@ public class IBuid {
 	private String stage;
 	private String project;
 	private String applicationPath;
+	private Regex regex;
 
 	public String getSubject() {
 		return subject;
@@ -165,6 +166,14 @@ public class IBuid {
 		this.applicationPath = applicationPath;
 	}
 
+	public Regex getRegex() {
+		return regex;
+	}
+
+	public void setRegex(Regex regex) {
+		this.regex = regex;
+	}
+
 	@Override
 	public String toString() {
 		return "IBuid [subject=" + subject + ", from=" + from + ", to=" + to + ", recipients=" + recipients
@@ -172,7 +181,7 @@ public class IBuid {
 				+ ", primarySubmittalReviewers=" + primarySubmittalReviewers + ", consultantReviewers="
 				+ consultantReviewers + ", itemDetails=" + itemDetails + ", activity=" + activity + ", description="
 				+ description + ", createdBy=" + createdBy + ", actionBy=" + actionBy + ", stage=" + stage
-				+ ", project=" + project + ", applicationPath=" + applicationPath + "]";
+				+ ", project=" + project + ", applicationPath=" + applicationPath + ", regex=" + regex + "]";
 	}
-
+	
 }
