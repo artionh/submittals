@@ -1,6 +1,8 @@
 package com.w2020.submittals.pojo;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class EmailEntity {
 
@@ -17,6 +19,18 @@ public class EmailEntity {
 	private String via;
 	private Regex regex;
 
+	public EmailEntity(){
+		this.regex = new Regex();
+		List<String> regexList = new ArrayList<String>();
+		regexList.add("/Submittal: ([0-9,]+)/");
+		regexList.add("/Submittal: \\s*([^\n\r]*)/");
+		regexList.add("/Submittal - ([0-9-]+)/");
+		regexList.add("/^[a-z0-9A-Z-]+/");
+		regexList.add("/Description: \\s*([^\n\r]*)/");
+		regexList.add("/Project: \\s*([^\n\r]*)/");
+		regex.setRegexList(regexList);
+	}
+	
 	public String getJobName() {
 		return jobName;
 	}
