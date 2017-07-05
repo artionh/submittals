@@ -2,7 +2,7 @@ package com.w2020.submittals.service;
 
 import java.util.List;
 import com.core.common.base.ServiceResponse;
-import com.w2020.submittals.pojo.Email;
+import com.w2020.submittals.pojo.EmailEntity;
 
 /**
  * 
@@ -14,5 +14,5 @@ public interface EmailService {
 
 	public int getNumberOfMessages();
 	
-	public ServiceResponse<List<Email>>  getEmails();
+	public ServiceResponse<List<EmailEntity>>  getEmails();
 }

@@ -1,5 +1,10 @@
 package com.w2020.submittals.pojo;
-
+/**
+ * 
+ * @author Besnik Palluqi
+ * @version 1.0
+ *
+ */
 import java.util.List;
 
 public class Regex {

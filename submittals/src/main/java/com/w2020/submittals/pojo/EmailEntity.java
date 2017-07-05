@@ -1,11 +1,18 @@
 package com.w2020.submittals.pojo;
-
+/**
+ * 
+ * @author Besnik Palluqi
+ * @version 1.0
+ *
+ */
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class EmailEntity {
 
+	private String subject;
 	private String jobName;
 	private String submittalNo;
 	private String transNo;
@@ -18,8 +25,9 @@ public class EmailEntity {
 	private String sendTo;
 	private String via;
 	private Regex regex;
+	private List<File> atachments;
 
-	public EmailEntity(){
+	public EmailEntity() {
 		this.regex = new Regex();
 		List<String> regexList = new ArrayList<String>();
 		regexList.add("/Submittal: ([0-9,]+)/");
@@ -30,7 +38,11 @@ public class EmailEntity {
 		regexList.add("/Project: \\s*([^\n\r]*)/");
 		regex.setRegexList(regexList);
 	}
-	
+
+	public void applyRegexValidation(String content) {
+
+	}
+
 	public String getJobName() {
 		return jobName;
 	}
@@ -127,12 +139,28 @@ public class EmailEntity {
 		this.regex = regex;
 	}
 
+	public String getSubject() {
+		return subject;
+	}
+
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+
+	public List<File> getAtachments() {
+		return atachments;
+	}
+
+	public void setAtachments(List<File> atachments) {
+		this.atachments = atachments;
+	}
+
 	@Override
 	public String toString() {
-		return "EmailEntity [jobName=" + jobName + ", submittalNo=" + submittalNo + ", transNo=" + transNo
-				+ ", detailer=" + detailer + ", description=" + description + ", hcec=" + hcec + ", dateRec=" + dateRec
-				+ ", dateSend=" + dateSend + ", action=" + action + ", sendTo=" + sendTo + ", via=" + via + ", regex="
-				+ regex + "]";
+		return "EmailEntity [subject=" + subject + ", jobName=" + jobName + ", submittalNo=" + submittalNo
+				+ ", transNo=" + transNo + ", detailer=" + detailer + ", description=" + description + ", hcec=" + hcec
+				+ ", dateRec=" + dateRec + ", dateSend=" + dateSend + ", action=" + action + ", sendTo=" + sendTo
+				+ ", via=" + via + ", regex=" + regex + ", atachments=" + atachments + "]";
 	}
 
 }
