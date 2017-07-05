@@ -32,11 +32,11 @@ public class EmailEntity {
 	public EmailEntity() {
 		this.regex = new Regex();
 		Map<String, String> regexList = new HashMap<String, String>();
-		regexList.put("submittal", "Submittal: ([0-9,]+)");
-		regexList.put("submittal", "Submittal: \\s*([^\n\r]*)");
-		regexList.put("submittal", "Submittal - ([0-9-]+)");
-		regexList.put("submittal", "Submittal ([0-9-]+)");
-		regexList.put("submittal", "Submittal \\s*([^\n\r]*)");
+		regexList.put("submittal1", "Submittal: ([0-9,]+)");
+		regexList.put("submittal2", "Submittal: \\s*([^\n\r]*)");
+		regexList.put("submittal3", "Submittal - ([0-9-]+)");
+		regexList.put("submittal4", "Submittal ([0-9-]+)");
+		regexList.put("submittal5", "Submittal \\s*([^\n\r]*)");
 		regexList.put("description", "Description: \\s*([^\n\r]*)");
 		regexList.put("project", "Project: \\s*([^\n\r]*)");
 		regex.setRegexList(regexList);
@@ -45,14 +45,16 @@ public class EmailEntity {
 	public void applyRegexValidation(String content) {
 		for (String index : this.regex.getRegexList().keySet()) {
 
-			if (index.equalsIgnoreCase("submittal")) {
+			if (index.contains("submittal")) {
 				this.submittalNo = getValueFromRegexValidation(this.regex.getRegexList().get(index), content);
 			}
-			if (index.equalsIgnoreCase("description")) {
-				this.description = getValueFromRegexValidation(this.regex.getRegexList().get(index), content);
+			 else 
+				  if (index.equalsIgnoreCase("description")) {
+				     this.description = getValueFromRegexValidation(this.regex.getRegexList().get(index), content);
 			}
-			if (index.equalsIgnoreCase("project")) {
-				this.jobName = getValueFromRegexValidation(this.regex.getRegexList().get(index), content);
+			 else 
+				  if (index.equalsIgnoreCase("project")) {
+				     this.jobName = getValueFromRegexValidation(this.regex.getRegexList().get(index), content);
 			}
 		}
 	}
