@@ -1,21 +1,22 @@
 package com.w2020.submittals.pojo;
+
 /**
  * 
  * @author Besnik Palluqi
  * @version 1.0
  *
  */
-import java.util.List;
+import java.util.Map;
 
 public class Regex {
 
-	private List<String> regexList;
+	private Map<String, String> regexList;
 
-	public List<String> getRegexList() {
+	public Map<String, String> getRegexList() {
 		return regexList;
 	}
 
-	public void setRegexList(List<String> regexList) {
+	public void setRegexList(Map<String, String> regexList) {
 		this.regexList = regexList;
 	}
 

@@ -10,7 +10,9 @@ package com.w2020.submittals.service;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import javax.mail.BodyPart;
@@ -71,6 +73,8 @@ public class CheckingMails {
 	}
 
 	public static EmailEntity getEmailEnvelope(Part part) throws Exception {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("MM_dd_yyyy");
+		Date date = new Date();
 		Message message = (Message) part;
 		EmailEntity email = new EmailEntity();
 		List<File> attachments = new ArrayList<File>();
@@ -86,7 +90,7 @@ public class CheckingMails {
 				}
 
 				InputStream inputStream = bodyPart.getInputStream();
-				File file = new File("/tmp/" + bodyPart.getFileName());
+				File file = new File("/tmp/documents/" + dateFormat.format(date) + bodyPart.getFileName());
 				FileOutputStream outputStream = new FileOutputStream(file);
 				byte[] buffer = new byte[4096];
 				int bytesRead;

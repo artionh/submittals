@@ -1,4 +1,5 @@
 package com.w2020.submittals.pojo;
+
 /**
  * 
  * @author Besnik Palluqi
@@ -6,9 +7,10 @@ package com.w2020.submittals.pojo;
  *
  */
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class EmailEntity {
 
@@ -29,18 +31,39 @@ public class EmailEntity {
 
 	public EmailEntity() {
 		this.regex = new Regex();
-		List<String> regexList = new ArrayList<String>();
-		regexList.add("/Submittal: ([0-9,]+)/");
-		regexList.add("/Submittal: \\s*([^\n\r]*)/");
-		regexList.add("/Submittal - ([0-9-]+)/");
-		regexList.add("/^[a-z0-9A-Z-]+/");
-		regexList.add("/Description: \\s*([^\n\r]*)/");
-		regexList.add("/Project: \\s*([^\n\r]*)/");
+		Map<String, String> regexList = new HashMap<String, String>();
+		regexList.put("submittal", "Submittal: ([0-9,]+)");
+		regexList.put("submittal", "Submittal: \\s*([^\n\r]*)");
+		regexList.put("submittal", "Submittal - ([0-9-]+)");
+		regexList.put("submittal", "Submittal ([0-9-]+)");
+		regexList.put("submittal", "Submittal \\s*([^\n\r]*)");
+		regexList.put("description", "Description: \\s*([^\n\r]*)");
+		regexList.put("project", "Project: \\s*([^\n\r]*)");
 		regex.setRegexList(regexList);
 	}
 
 	public void applyRegexValidation(String content) {
+		for (String index : this.regex.getRegexList().keySet()) {
 
+			if (index.equalsIgnoreCase("submittal")) {
+				this.submittalNo = getValueFromRegexValidation(this.regex.getRegexList().get(index), content);
+			}
+			if (index.equalsIgnoreCase("description")) {
+				this.description = getValueFromRegexValidation(this.regex.getRegexList().get(index), content);
+			}
+			if (index.equalsIgnoreCase("project")) {
+				this.jobName = getValueFromRegexValidation(this.regex.getRegexList().get(index), content);
+			}
+		}
+	}
+
+	public String getValueFromRegexValidation(String regexPattern, String content) {
+
+		if (content.matches(regexPattern)) {
+			String filteredValue = content.split(regexPattern)[0];
+			return filteredValue;
+		}
+		return "";
 	}
 
 	public String getJobName() {
