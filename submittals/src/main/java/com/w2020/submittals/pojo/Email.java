@@ -1,5 +1,6 @@
 package com.w2020.submittals.pojo;
 
+import java.io.File;
 import java.util.List;
 
 import javax.mail.Address;
@@ -10,7 +11,7 @@ public class Email {
 	private List<Address> From;
 	private List<Address> To;
 	private String Text;
-	private List<String> atachments;
+	private List<File> atachments;
 
 	public String getSubject() {
 		return Subject;
@@ -44,11 +45,11 @@ public class Email {
 		To = to;
 	}
 
-	public List<String> getAtachments() {
+	public List<File> getAtachments() {
 		return atachments;
 	}
 
-	public void setAtachments(List<String> atachments) {
+	public void setAtachments(List<File> atachments) {
 		this.atachments = atachments;
 	}
 
