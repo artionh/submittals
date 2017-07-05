@@ -5,7 +5,8 @@
 	<groupId>com.w2020.submittals</groupId>
 	<artifactId>submittals</artifactId>
 	<version>1.0</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
+
 
 
 	<properties>
@@ -18,6 +19,14 @@
 	</properties>
 
 	<dependencies>
+
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.2</version>
+		</dependency>
+
+
 		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
@@ -28,7 +37,7 @@
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>tomcat-servlet-api</artifactId>
 			<scope>provided</scope>
-			<version>7.0.73</version>
+			<version>8.0.32</version>
 		</dependency>
 
 		<dependency>

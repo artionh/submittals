@@ -47,14 +47,10 @@ public class EmailEntity {
 
 			if (index.contains("submittal")) {
 				this.submittalNo = getValueFromRegexValidation(this.regex.getRegexList().get(index), content);
-			}
-			 else 
-				  if (index.equalsIgnoreCase("description")) {
-				     this.description = getValueFromRegexValidation(this.regex.getRegexList().get(index), content);
-			}
-			 else 
-				  if (index.equalsIgnoreCase("project")) {
-				     this.jobName = getValueFromRegexValidation(this.regex.getRegexList().get(index), content);
+			} else if (index.equalsIgnoreCase("description")) {
+				this.description = getValueFromRegexValidation(this.regex.getRegexList().get(index), content);
+			} else if (index.equalsIgnoreCase("project")) {
+				this.jobName = getValueFromRegexValidation(this.regex.getRegexList().get(index), content);
 			}
 		}
 	}
