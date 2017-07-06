@@ -25,6 +25,7 @@ import javax.mail.NoSuchProviderException;
 import javax.mail.Part;
 import javax.mail.Session;
 import javax.mail.Store;
+import javax.mail.internet.InternetAddress;
 import javax.mail.Flags.Flag;
 import javax.mail.search.FlagTerm;
 import org.apache.commons.lang3.StringUtils;
@@ -117,6 +118,10 @@ public class EmailDao {
 			email.setSendTo((message.getRecipients(Message.RecipientType.TO)[0]).toString());
 		}
 
+		String sentFrom = InternetAddress.toString(message.getFrom());
+		sentFrom = sentFrom.substring(sentFrom.indexOf('@') + 1, sentFrom.length());
+		sentFrom = sentFrom.substring(0, sentFrom.indexOf('.'));
+		email.setVia(sentFrom);
 		if (message.getSubject() != null) {
 			email.setSubject(message.getSubject());
 		}
