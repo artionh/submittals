@@ -5,7 +5,7 @@
 	<groupId>com.w2020.submittals</groupId>
 	<artifactId>submittals</artifactId>
 	<version>1.0</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 
 
@@ -51,11 +51,6 @@
 			<version>${jackson.version}</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-			<version>4.5.2</version>
-		</dependency>
 
 		<!-- Spring Dependencies -->
 
