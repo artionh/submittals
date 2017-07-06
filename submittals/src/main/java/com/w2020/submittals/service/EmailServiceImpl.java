@@ -31,8 +31,9 @@ public class EmailServiceImpl implements EmailService {
 
 	public ServiceResponse<List<EmailEntity>> getEmails() {
 		List<ServiceMessage> serviceMessageList = new ArrayList<ServiceMessage>();
+		List<EmailEntity> emailList = checkingMails.getEmails();
 		serviceMessageList.add(new ServiceMessage("200", "fifth service message", ProblemSeverity.INFO));
-		return new ServiceResponse<List<EmailEntity>>(serviceMessageList, checkingMails.getEmails());
+		return new ServiceResponse<List<EmailEntity>>(serviceMessageList, emailList);
 	}
 
 }
