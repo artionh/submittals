@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.core.common.base.ServiceResponse;
-import com.w2020.submittals.pojo.EmailEntity;
+import com.w2020.submittals.pojo.Email;
 import com.w2020.submittals.service.EmailService;
 
 @CrossOrigin(origins = "http://localhost:8085")
@@ -29,11 +29,11 @@ public class EmailController {
 	EmailService emailService;
 
 	@RequestMapping(value = "/getEmails", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ServiceResponse<List<EmailEntity>>> getFrStreetByIDStreets() throws Exception {
+	public ResponseEntity<ServiceResponse<List<Email>>> getFrStreetByIDStreets() throws Exception {
 
-		ServiceResponse<List<EmailEntity>> result = emailService.getEmails();
+		ServiceResponse<List<Email>> result = emailService.getEmails();
 
-		return new ResponseEntity<ServiceResponse<List<EmailEntity>>>(result, HttpStatus.OK);
+		return new ResponseEntity<ServiceResponse<List<Email>>>(result, HttpStatus.OK);
 	}
 
 	public EmailService getEmailService() {

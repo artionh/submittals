@@ -29,12 +29,18 @@ import javax.mail.Flags.Flag;
 import javax.mail.search.FlagTerm;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
+
+import com.w2020.submittals.pojo.Email;
 import com.w2020.submittals.pojo.EmailEntity;
+import com.w2020.submittals.utils.converters.EmailConverter;
 
 @Component
 public class CheckingMails {
 
-	public static List<EmailEntity> getEmails() {
+	private static final EmailConverter EMAIL_CONVERTER = new EmailConverter();
+
+	public List<Email> getEmails() {
+		List<Email> emaiResponselList = new ArrayList<Email>();
 
 		Properties properties = System.getProperties();
 		properties.setProperty("mail.store.protocol", "imaps");
@@ -60,7 +66,11 @@ public class CheckingMails {
 			emailFolder.close(false);
 			store.close();
 
-			return emailList;
+			for (EmailEntity index : emailList) {
+				emaiResponselList.add(EMAIL_CONVERTER.reverse().convert(index));
+			}
+
+			return emaiResponselList;
 
 		} catch (NoSuchProviderException e) {
 			e.printStackTrace();
@@ -119,18 +129,6 @@ public class CheckingMails {
 
 		return email;
 
-	}
-
-	public static void main(String[] args) {
-
-		long startTime = System.currentTimeMillis();
-		long endTime = System.currentTimeMillis();
-
-		for (EmailEntity email : getEmails()) {
-			System.out.println(email.toString());
-		}
-		long executeTime = endTime - startTime;
-		System.out.println("Time: " + executeTime);
 	}
 
 }

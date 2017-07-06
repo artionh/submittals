@@ -28,6 +28,7 @@ public class EmailEntity {
 	private String via;
 	private Regex regex;
 	private List<File> atachments;
+	private List<String> atachmentsFileName;
 
 	public EmailEntity() {
 		this.regex = new Regex();
@@ -176,12 +177,21 @@ public class EmailEntity {
 		this.atachments = atachments;
 	}
 
+	public List<String> getAtachmentsFileName() {
+		return atachmentsFileName;
+	}
+
+	public void setAtachmentsFileName(List<String> atachmentsFileName) {
+		this.atachmentsFileName = atachmentsFileName;
+	}
+
 	@Override
 	public String toString() {
 		return "EmailEntity [subject=" + subject + ", jobName=" + jobName + ", submittalNo=" + submittalNo
 				+ ", transNo=" + transNo + ", detailer=" + detailer + ", description=" + description + ", hcec=" + hcec
 				+ ", dateRec=" + dateRec + ", dateSend=" + dateSend + ", action=" + action + ", sendTo=" + sendTo
-				+ ", via=" + via + ", regex=" + regex + ", atachments=" + atachments + "]";
+				+ ", via=" + via + ", regex=" + regex + ", atachments=" + atachments + ", atachmentsFileName="
+				+ atachmentsFileName + "]";
 	}
 
 }
