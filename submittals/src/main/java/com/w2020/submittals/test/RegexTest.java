@@ -41,7 +41,7 @@ public class RegexTest {
 		
 		submittal = submittialStringBuilder.toString();
 		
-		System.out.println(submittal);
+		/*System.out.println(submittal);*/
 		
 //		String[] project = submittal.split("Section([:\\s-]*)");
 //		
@@ -60,7 +60,7 @@ public class RegexTest {
 		String sub = "Submittal - 034500-032 ";
 		
 		for(String i : regexList){
-			if(sub.matches(i)){
+			if(submittal.matches(i)){
 				System.out.println(sub+" matches "+i);
 				regexIndex = regexList.indexOf(i);
 				System.out.println(regexIndex);

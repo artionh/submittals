@@ -93,7 +93,7 @@ public class EmailEntity {
 	public String getValueFromRegexValidation(String regexPattern, String content) {
 
 		if (content.matches(regexPattern)) {
-			String filteredValue = content.split(regexPattern)[0];
+			String filteredValue = content.split(regexPattern)[1];
 			return filteredValue;
 		}
 		return "";
