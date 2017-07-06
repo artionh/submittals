@@ -15,11 +15,11 @@ public class RegexTest {
 		regexList.add("submittal - (?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])");
 		regexList.add("Submittal ([0-9-]+)");
 		regexList.add("Submittal \\s*([^\n\r]*)");
+		regexList.add("Submittal[a-z0-9A-Z-\\s:]+");
 //		regexList.add("Description: \\s*([^\n\r]*)");
 //		regexList.add("Project: \\s*([^\n\r]*)");
-		regexList.add("Submittal[a-z0-9A-Z-\\s:]+");
 		
-		String submittal = "Project: 122 E 23rd St.Section: Submittal - 034500-032 Architectural Precast ConcreteDescription: This is for development purposesesResubmittal: Calculations - North Tower Design Calcs (Submittal 034500-001N-1)Submitted By: CM & Associates";
+		String submittal = "Project: 122 E 23rd St.Section: Submittal - 034500-032 Architectural Precast ConcreteDescription: This is for development purposesesResubmittal: Calculations - North Tower Design Calcs (Submittal 034500-001N-1)SubmittedBy: CM & Associates";
 		StringBuilder submittialStringBuilder = new StringBuilder(submittal);
 		int indexOfSection = submittal.indexOf("Section");
 		System.out.println(indexOfSection);
@@ -27,33 +27,36 @@ public class RegexTest {
 		System.out.println(indexOfDescription);
 		int indexOfResubmittal = submittal.indexOf("Resubmittal");
 		System.out.println(indexOfResubmittal);
-		int indexOfSubmittedBy = submittal.indexOf("Submitted By");
-		System.out.println(indexOfSubmittedBy);
+		int a = submittal.indexOf("Submitted By");
+		
+		if(a == -1){
+			a = submittal.indexOf("SubmittedBy");
+		}
+
 		
 		submittialStringBuilder.insert(indexOfSection, "\n");
 		submittialStringBuilder.insert(indexOfDescription+1, "\n");
 		submittialStringBuilder.insert(indexOfResubmittal+2, "\n");
-		submittialStringBuilder.insert(indexOfSubmittedBy+3, "\n");
+		submittialStringBuilder.insert(a+3, "\n");
 		
 		submittal = submittialStringBuilder.toString();
 		
-		String[] project = submittal.split("Section([:\\s-]*)");
+		System.out.println(submittal);
 		
-		
-		
-		for(int i=0;i<project.length;i++){
-			System.out.println(project[i]);
-			for(String j : regexList){
-				if(project[i].matches(j)){
-					System.out.println(submittal+" matches "+j);
-					regexIndex = regexList.indexOf(j);
-					System.out.println(regexIndex);
-					break;
-				}
-			}
-		}
-		
-		
+//		String[] project = submittal.split("Section([:\\s-]*)");
+//		
+//		for(int i=0;i<project.length;i++){
+//			System.out.println(project[i]);
+//			for(String j : regexList){
+//				if(project[i].matches(j)){
+//					System.out.println(submittal+" matches "+j);
+//					regexIndex = regexList.indexOf(j);
+//					System.out.println(regexIndex);
+//					break;
+//				}
+//			}
+//		}
+			
 		String sub = "Submittal - 034500-032 ";
 		
 		for(String i : regexList){
