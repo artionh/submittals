@@ -49,15 +49,35 @@ public class EmailEntity {
 		String editedContent = editEmailContent(content);
 		this.setTransNo("XXX");
 		this.setHcec("EC");
-		for (String index : this.regex.getRegexList().keySet()) {
+		String[] project = editedContent.split("\n");
+		for (String index : project) {
 
-			if (index.contains("submittal")) {
-				this.submittalNo = getValueFromRegexValidation(this.regex.getRegexList().get(index), editedContent);
-			} else if (index.equalsIgnoreCase("description")) {
-				this.description = getValueFromRegexValidation(this.regex.getRegexList().get(index), editedContent);
-			} else if (index.equalsIgnoreCase("project")) {
-				this.jobName = getValueFromRegexValidation(this.regex.getRegexList().get(index), editedContent);
+			if (index.contains("Project")) {
+				this.setJobName(index.replaceFirst("Project:", ""));
+			} else if (index.contains("Section")) {
+				content = index.split("Section([\\s:-]*)")[1];
+				this.setSubmittalNo(index.replace("Section:", "\n"));
+			} else if (index.contains("Description")) {
+				this.setDescription(index.replace("Description:", "\n"));
+			} else if (index.contains("Resubmittal")) {
+				/* submittalModified += index.replace("Resubmittal:", "\n"); */
+			} else {
+				this.setSubmittalNo(index.replace("Submitted By:", "\n"));
 			}
+
+			/* for (String index : this.regex.getRegexList().keySet()) { */
+
+			/*
+			 * if (index.contains("submittal")) { this.submittalNo =
+			 * getValueFromRegexValidation(this.regex.getRegexList().get(index),
+			 * editedContent); } else if (index.equalsIgnoreCase("description"))
+			 * { this.description =
+			 * getValueFromRegexValidation(this.regex.getRegexList().get(index),
+			 * editedContent); } else if (index.equalsIgnoreCase("project")) {
+			 * this.jobName =
+			 * getValueFromRegexValidation(this.regex.getRegexList().get(index),
+			 * editedContent); }
+			 */
 		}
 	}
 
