@@ -42,12 +42,14 @@ public class RegexTest {
 		//added
 		String[] project = submittialStringBuilder.toString().split("\n");
 		String submittalModified = "";
+		String content = "";
 		
 		for(String i : project){
 			if(i.contains("Project")){
 				submittalModified += i.replaceFirst("Project:", "");
 			}
 			else if(i.contains("Section")){
+				content = i.split("Section([\\s:-]*)")[1];
 				submittalModified += i.replace("Section:", "\n");
 			}
 			else if(i.contains("Description")){
@@ -58,6 +60,14 @@ public class RegexTest {
 			}
 			else {
 				submittalModified += i.replace("Submitted By:", "\n");
+			}
+		}
+		
+		System.out.println(content);
+		
+		for(String i :regexList){
+			if(content.matches(i)){
+				System.out.println("Matches "+regexList.indexOf(i));
 			}
 		}
 		
