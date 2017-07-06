@@ -89,6 +89,7 @@ public class EmailDao {
 		Message message = (Message) part;
 		EmailEntity email = new EmailEntity();
 		List<File> attachments = new ArrayList<File>();
+		List<String> atachmentsPath = new ArrayList<String>();
 
 		if (part.isMimeType("multipart/*")) {
 			Multipart multipart = (Multipart) message.getContent();
@@ -101,7 +102,8 @@ public class EmailDao {
 				}
 
 				InputStream inputStream = bodyPart.getInputStream();
-				File file = new File("/tmp/documents/" + dateFormat.format(date) + bodyPart.getFileName());
+				File file = new File("C:/data/documents" + dateFormat.format(date) + bodyPart.getFileName());
+				atachmentsPath.add("C:/data/documents" + dateFormat.format(date) + bodyPart.getFileName());
 				FileOutputStream outputStream = new FileOutputStream(file);
 				byte[] buffer = new byte[4096];
 				int bytesRead;
@@ -131,6 +133,7 @@ public class EmailDao {
 		}
 
 		email.setAtachments(attachments);
+		email.setAtachmentsFileName(atachmentsPath);
 
 		return email;
 
