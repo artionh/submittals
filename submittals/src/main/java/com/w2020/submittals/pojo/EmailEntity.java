@@ -47,7 +47,8 @@ public class EmailEntity {
 
 	public void applyRegexValidation(String content) {
 		String editedContent = editEmailContent(content);
-
+		this.setTransNo("XXX");
+		this.setHcec("EC");
 		for (String index : this.regex.getRegexList().keySet()) {
 
 			if (index.contains("submittal")) {
