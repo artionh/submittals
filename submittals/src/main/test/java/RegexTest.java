@@ -12,7 +12,7 @@ public class RegexTest {
 		regexList.add("Submittal - (\\s*[a-zA-Z0-9-]+)");
 		regexList.add("submittal - (?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])");
 		regexList.add("Submittal ([0-9-]+)");
-//		regexList.add("Submittal \\s*([^\n\r]*)");
+		regexList.add("Submittal \\s*([^\n\r]*)");
 //		regexList.add("Description: \\s*([^\n\r]*)");
 //		regexList.add("Project: \\s*([^\n\r]*)");
 		regexList.add("Submittal[a-z0-9A-Z-\\s:]+");
