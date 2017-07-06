@@ -22,7 +22,7 @@ import com.w2020.submittals.pojo.Email;
 public class EmailServiceImpl implements EmailService {
 
 	@Autowired
-	CheckingMails checkingMails;
+	EmailDao emailDao;
 
 	public int getNumberOfMessages() {
 		// TODO Auto-generated method stub
@@ -31,7 +31,7 @@ public class EmailServiceImpl implements EmailService {
 
 	public ServiceResponse<List<Email>> getEmails() {
 		List<ServiceMessage> serviceMessageList = new ArrayList<ServiceMessage>();
-		List<Email> emailList = checkingMails.getEmails();
+		List<Email> emailList = emailDao.getEmails();
 		serviceMessageList.add(new ServiceMessage("200", "fifth service message", ProblemSeverity.INFO));
 		return new ServiceResponse<List<Email>>(serviceMessageList, emailList);
 	}

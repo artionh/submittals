@@ -35,25 +35,58 @@ public class EmailEntity {
 		Map<String, String> regexList = new HashMap<String, String>();
 		regexList.put("submittal1", "Submittal: ([0-9,]+)");
 		regexList.put("submittal2", "Submittal: \\s*([^\n\r]*)");
-		regexList.put("submittal3", "Submittal - ([0-9-]+)");
-		regexList.put("submittal4", "Submittal ([0-9-]+)");
-		regexList.put("submittal5", "Submittal \\s*([^\n\r]*)");
+		regexList.put("submittal3", "Submittal - (\\s*[a-zA-Z0-9-]+)");
+		regexList.put("submittal4", "submittal - (?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])");
+		regexList.put("submittal5", "Submittal ([0-9-]+)");
+		regexList.put("submittal6", "Submittal \\s*([^\n\r]*)");
+		regexList.put("submittal7", "Submittal[a-z0-9A-Z-\\s:]+");
 		regexList.put("description", "Description: \\s*([^\n\r]*)");
 		regexList.put("project", "Project: \\s*([^\n\r]*)");
 		regex.setRegexList(regexList);
 	}
 
 	public void applyRegexValidation(String content) {
+		String editedContent = editEmailContent(content);
+
 		for (String index : this.regex.getRegexList().keySet()) {
 
 			if (index.contains("submittal")) {
-				this.submittalNo = getValueFromRegexValidation(this.regex.getRegexList().get(index), content);
+				this.submittalNo = getValueFromRegexValidation(this.regex.getRegexList().get(index), editedContent);
 			} else if (index.equalsIgnoreCase("description")) {
-				this.description = getValueFromRegexValidation(this.regex.getRegexList().get(index), content);
+				this.description = getValueFromRegexValidation(this.regex.getRegexList().get(index), editedContent);
 			} else if (index.equalsIgnoreCase("project")) {
-				this.jobName = getValueFromRegexValidation(this.regex.getRegexList().get(index), content);
+				this.jobName = getValueFromRegexValidation(this.regex.getRegexList().get(index), editedContent);
 			}
 		}
+	}
+
+	public String editEmailContent(String emailContent) {
+		StringBuilder submittialStringBuilder = new StringBuilder(emailContent);
+
+		int indexOfSection = emailContent.indexOf("Section");
+		int indexOfDescription = emailContent.indexOf("Description");
+		int indexOfResubmittal = emailContent.indexOf("Resubmittal");
+		int indexOfSubmittedBy = emailContent.indexOf("Submitted By");
+
+		if (indexOfSubmittedBy == -1) {
+			indexOfSubmittedBy = emailContent.indexOf("SubmittedBy");
+		}
+
+		if (indexOfSection != -1) {
+			submittialStringBuilder.insert(indexOfSection, "\n");
+		}
+
+		if (indexOfDescription != -1) {
+			submittialStringBuilder.insert(indexOfDescription + 1, "\n");
+		}
+		if (indexOfResubmittal != -1) {
+			submittialStringBuilder.insert(indexOfResubmittal + 2, "\n");
+		}
+		if (indexOfSubmittedBy != -1) {
+			submittialStringBuilder.insert(indexOfSubmittedBy + 3, "\n");
+		}
+
+		return submittialStringBuilder.toString();
 	}
 
 	public String getValueFromRegexValidation(String regexPattern, String content) {

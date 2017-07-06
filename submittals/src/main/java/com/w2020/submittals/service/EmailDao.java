@@ -35,7 +35,7 @@ import com.w2020.submittals.pojo.EmailEntity;
 import com.w2020.submittals.utils.converters.EmailConverter;
 
 @Component
-public class CheckingMails {
+public class EmailDao {
 
 	private static final EmailConverter EMAIL_CONVERTER = new EmailConverter();
 
