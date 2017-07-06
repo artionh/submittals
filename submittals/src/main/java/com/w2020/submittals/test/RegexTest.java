@@ -39,34 +39,40 @@ public class RegexTest {
 		submittialStringBuilder.insert(indexOfResubmittal+2, "\n");
 		submittialStringBuilder.insert(a+3, "\n");
 		
-		submittal = submittialStringBuilder.toString();
+		//added
+		String[] project = submittialStringBuilder.toString().split("\n");
+		String submittalModified = "";
 		
-		System.out.println(submittal);
-		
-//		String[] project = submittal.split("Section([:\\s-]*)");
-//		
-//		for(int i=0;i<project.length;i++){
-//			System.out.println(project[i]);
-//			for(String j : regexList){
-//				if(project[i].matches(j)){
-//					System.out.println(submittal+" matches "+j);
-//					regexIndex = regexList.indexOf(j);
-//					System.out.println(regexIndex);
-//					break;
-//				}
-//			}
-//		}
-			
-		String sub = "Submittal - 034500-032 ";
-		
-		for(String i : regexList){
-			if(sub.matches(i)){
-				System.out.println(sub+" matches "+i);
-				regexIndex = regexList.indexOf(i);
-				System.out.println(regexIndex);
-				break;
+		for(String i : project){
+			if(i.contains("Project")){
+				submittalModified += i.replaceFirst("Project:", "");
+			}
+			else if(i.contains("Section")){
+				submittalModified += i.replace("Section:", "\n");
+			}
+			else if(i.contains("Description")){
+				submittalModified += i.replace("Description:", "\n");
+			}
+			else if(i.contains("Resubmittal")){
+				submittalModified += i.replace("Resubmittal:", "\n");
+			}
+			else {
+				submittalModified += i.replace("Submitted By:", "\n");
 			}
 		}
+		
+		System.out.println(submittalModified);
+		
+//		String sub = "Submittal - 034500-032 ";
+//		
+//		for(String i : regexList){
+//			if(sub.matches(i)){
+//				System.out.println(sub+" matches "+i);
+//				regexIndex = regexList.indexOf(i);
+//				System.out.println(regexIndex);
+//				break;
+//			}
+//		}
 		
 //		switch(regexIndex){
 //		case 0 :
