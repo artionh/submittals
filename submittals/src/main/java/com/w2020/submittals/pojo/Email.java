@@ -12,8 +12,8 @@ public class Email {
 	private String detailer;
 	private String description;
 	private String hcec;
-	private Date dateRec;
-	private Date dateSend;
+	private String dateRec;
+	private String dateSend;
 	private String action;
 	private String sendTo;
 	private String via;
@@ -75,19 +75,19 @@ public class Email {
 		this.hcec = hcec;
 	}
 
-	public Date getDateRec() {
+	public String getDateRec() {
 		return dateRec;
 	}
 
-	public void setDateRec(Date dateRec) {
+	public void setDateRec(String dateRec) {
 		this.dateRec = dateRec;
 	}
 
-	public Date getDateSend() {
+	public String getDateSend() {
 		return dateSend;
 	}
 
-	public void setDateSend(Date dateSend) {
+	public void setDateSend(String dateSend) {
 		this.dateSend = dateSend;
 	}
 

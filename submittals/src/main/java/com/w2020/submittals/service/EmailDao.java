@@ -50,7 +50,7 @@ public class EmailDao {
 			Session session = Session.getDefaultInstance(properties, null);
 
 			Store store = session.getStore("imaps");
-			store.connect("pop.gmail.com", "besnik.palluqi@gmail.com", "Darkmoon35");
+			store.connect("imap.gmail.com", "w2020dev@gmail.com", "wdtvkpovupkujfhk");
 			Folder emailFolder = store.getFolder("INBOX");
 			emailFolder.open(Folder.READ_ONLY);
 
@@ -85,6 +85,7 @@ public class EmailDao {
 
 	public static EmailEntity getEmailEnvelope(Part part) throws Exception {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("MM_dd_yyyy");
+		SimpleDateFormat dateFormat1 = new SimpleDateFormat("MM/dd/yyyy");
 		Date date = new Date();
 		Message message = (Message) part;
 		EmailEntity email = new EmailEntity();
@@ -102,8 +103,7 @@ public class EmailDao {
 				}
 
 				InputStream inputStream = bodyPart.getInputStream();
-				File file = new File("/tmp/documents" + dateFormat.format(date) + bodyPart.getFileName());
-				atachmentsPath.add("/tmp/documents" + dateFormat.format(date) + bodyPart.getFileName());
+				File file = new File("/tmp/documents/" + dateFormat.format(date) + bodyPart.getFileName());
 				FileOutputStream outputStream = new FileOutputStream(file);
 				byte[] buffer = new byte[4096];
 				int bytesRead;
@@ -112,6 +112,7 @@ public class EmailDao {
 				}
 				outputStream.close();
 				attachments.add(file);
+				atachmentsPath.add("/tmp/documents/" + dateFormat.format(date) + bodyPart.getFileName());
 			}
 
 		}
@@ -120,16 +121,26 @@ public class EmailDao {
 			email.setSendTo((message.getRecipients(Message.RecipientType.TO)[0]).toString());
 		}
 
+		email.setDateRec(dateFormat1.format(message.getReceivedDate()).toString());
+		email.setDateSend(dateFormat1.format(message.getReceivedDate()).toString());
 		String sentFrom = InternetAddress.toString(message.getFrom());
 		sentFrom = sentFrom.substring(sentFrom.indexOf('@') + 1, sentFrom.length());
 		sentFrom = sentFrom.substring(0, sentFrom.indexOf('.'));
 		email.setVia(sentFrom);
+
 		if (message.getSubject() != null) {
 			email.setSubject(message.getSubject());
 		}
 
 		if (part.getContent() != null) {
-			email.applyRegexValidation(part.getContent().toString());
+			if (part.getContent() instanceof String) {
+				email.applyRegexValidation(part.getContent().toString());
+			} else if (part.getContent() instanceof Multipart) {
+				Multipart multipart = (Multipart) part.getContent();
+				BodyPart part1 = multipart.getBodyPart(0);
+				part1.toString();
+				email.applyRegexValidation(part1.getContent().toString());
+			}
 		}
 
 		email.setAtachments(attachments);

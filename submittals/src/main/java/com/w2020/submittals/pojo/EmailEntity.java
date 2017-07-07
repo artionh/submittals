@@ -7,10 +7,11 @@ package com.w2020.submittals.pojo;
  *
  */
 import java.io.File;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class EmailEntity {
 
@@ -21,8 +22,8 @@ public class EmailEntity {
 	private String detailer;
 	private String description;
 	private String hcec;
-	private Date dateRec;
-	private Date dateSend;
+	private String dateRec;
+	private String dateSend;
 	private String action;
 	private String sendTo;
 	private String via;
@@ -33,51 +34,59 @@ public class EmailEntity {
 	public EmailEntity() {
 		this.regex = new Regex();
 		Map<String, String> regexList = new HashMap<String, String>();
-		regexList.put("submittal1", "Submittal: ([0-9,]+)");
-		regexList.put("submittal2", "Submittal: \\s*([^\n\r]*)");
-		regexList.put("submittal3", "Submittal - (\\s*[a-zA-Z0-9-]+)");
-		regexList.put("submittal4", "submittal - (?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])");
-		regexList.put("submittal5", "Submittal ([0-9-]+)");
-		regexList.put("submittal6", "Submittal \\s*([^\n\r]*)");
-		regexList.put("submittal7", "Submittal[a-z0-9A-Z-\\s:]+");
-		regexList.put("description", "Description: \\s*([^\n\r]*)");
-		regexList.put("project", "Project: \\s*([^\n\r]*)");
+		regexList.put("submittal1", "Submittal:*\\s*-*\\s*([0-9-a-zA-Z]+)");
+		/*
+		 * regexList.put("submittal2", "Submittal: \\s*([^\n\r]*)");
+		 * regexList.put("submittal3", "Submittal - (\\s*[a-zA-Z0-9-]+)");
+		 * regexList.put("submittal4",
+		 * "submittal - (?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])");
+		 * regexList.put("submittal5", "Submittal ([0-9-]+)");
+		 * regexList.put("submittal6", "Submittal \\s*([^\n\r]*)");
+		 * regexList.put("submittal7", "Submittal[a-z0-9A-Z-\\s:]+");
+		 */
+		regexList.put("description", "Description: \\s*[0-9-]*[a-z A-Z]*-*");
+		regexList.put("project", "Project:*\\s*([^\n]*) St|Street");
+		regexList.put("action", "Stage:*\\s*([^\n]*)");
 		regex.setRegexList(regexList);
 	}
 
 	public void applyRegexValidation(String content) {
-		String editedContent = editEmailContent(content);
+		String editedContent = content;
 		this.setTransNo("XXX");
 		this.setHcec("EC");
-		String[] project = editedContent.split("\n");
-		for (String index : project) {
 
-			if (index.contains("Project")) {
-				this.setJobName(index.replaceFirst("Project:", ""));
-			} else if (index.contains("Section")) {
-				content = index.split("Section([\\s:-]*)")[1];
-				this.setSubmittalNo(index.replace("Section:", "\n"));
-			} else if (index.contains("Description")) {
-				this.setDescription(index.replace("Description:", "\n"));
-			} else if (index.contains("Resubmittal")) {
-				/* submittalModified += index.replace("Resubmittal:", "\n"); */
-			} else {
-				this.setSubmittalNo(index.replace("Submitted By:", "\n"));
+		for (String index : this.regex.getRegexList().keySet()) {
+
+			if (index.contains("action")) {
+				this.action = getValueFromRegexValidation(this.regex.getRegexList().get(index), editedContent);
+
+				if (this.getAction().contains("Stage:")) {
+					this.action = this.action.replace("Stage:", "");
+				}
 			}
 
-			/* for (String index : this.regex.getRegexList().keySet()) { */
+			if (index.contains("submittal")) {
+				this.submittalNo = getValueFromRegexValidation(this.regex.getRegexList().get(index), editedContent);
 
-			/*
-			 * if (index.contains("submittal")) { this.submittalNo =
-			 * getValueFromRegexValidation(this.regex.getRegexList().get(index),
-			 * editedContent); } else if (index.equalsIgnoreCase("description"))
-			 * { this.description =
-			 * getValueFromRegexValidation(this.regex.getRegexList().get(index),
-			 * editedContent); } else if (index.equalsIgnoreCase("project")) {
-			 * this.jobName =
-			 * getValueFromRegexValidation(this.regex.getRegexList().get(index),
-			 * editedContent); }
-			 */
+				if (this.getSubmittalNo().contains("Submittal:")) {
+					this.submittalNo = this.submittalNo.replace("Submittal:", "");
+				} else if (this.getSubmittalNo().contains("Submittal -")) {
+					this.submittalNo = this.submittalNo.replace("Submittal -", "");
+				}
+			} else if (index.equalsIgnoreCase("description")) {
+				this.description = getValueFromRegexValidation(this.regex.getRegexList().get(index), editedContent);
+
+				if (this.getDescription().contains("Description:")) {
+					this.description = this.description.replace("Description:", "");
+				}
+			} else if (index.equalsIgnoreCase("project")) {
+				this.jobName = getValueFromRegexValidation(this.regex.getRegexList().get(index), editedContent);
+
+				if (this.getJobName().contains("Project:")) {
+					this.jobName = this.jobName.replace("Project:", "");
+				}
+			}
+
 		}
 	}
 
@@ -112,9 +121,10 @@ public class EmailEntity {
 
 	public String getValueFromRegexValidation(String regexPattern, String content) {
 
-		if (content.matches(regexPattern)) {
-			String filteredValue = content.split(regexPattern)[1];
-			return filteredValue;
+		Pattern p = Pattern.compile(regexPattern);
+		Matcher m = p.matcher(content);
+		while (m.find()) {
+			return m.group();
 		}
 		return "";
 	}
@@ -167,19 +177,19 @@ public class EmailEntity {
 		this.hcec = hcec;
 	}
 
-	public Date getDateRec() {
+	public String getDateRec() {
 		return dateRec;
 	}
 
-	public void setDateRec(Date dateRec) {
+	public void setDateRec(String dateRec) {
 		this.dateRec = dateRec;
 	}
 
-	public Date getDateSend() {
+	public String getDateSend() {
 		return dateSend;
 	}
 
-	public void setDateSend(Date dateSend) {
+	public void setDateSend(String dateSend) {
 		this.dateSend = dateSend;
 	}
 
