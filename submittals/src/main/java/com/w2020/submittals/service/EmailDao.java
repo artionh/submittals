@@ -85,7 +85,7 @@ public class EmailDao {
 
 	public static EmailEntity getEmailEnvelope(Part part) throws Exception {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("MM_dd_yyyy");
-		SimpleDateFormat dateFormat1 = new SimpleDateFormat("MM/dd/yyyy");
+		SimpleDateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = new Date();
 		Message message = (Message) part;
 		EmailEntity email = new EmailEntity();
@@ -112,7 +112,7 @@ public class EmailDao {
 				}
 				outputStream.close();
 				attachments.add(file);
-				atachmentsPath.add("/tmp/documents/" + dateFormat.format(date) + bodyPart.getFileName());
+				atachmentsPath.add(dateFormat.format(date) + bodyPart.getFileName());
 			}
 
 		}

@@ -61,9 +61,9 @@ public class EmailEntity {
 				this.action = getValueFromRegexValidation(this.regex.getRegexList().get(index), editedContent);
 
 				if (this.getAction().contains("Stage:")) {
-					this.action = this.action.replace("Stage:", "");
+					this.action = this.action.replace("Stage:", "").trim();
 				} else if (this.getAction().contains("\\r")) {
-					this.action = this.action.replace("\\r", "");
+					this.action = this.action.replace("\\r", "").trim();
 				}
 			}
 
@@ -71,23 +71,24 @@ public class EmailEntity {
 				this.submittalNo = getValueFromRegexValidation(this.regex.getRegexList().get(index), editedContent);
 
 				if (this.getSubmittalNo().contains("Submittal:")) {
-					this.submittalNo = this.submittalNo.replace("Submittal:", "");
+					this.submittalNo = this.submittalNo.replace("Submittal:", "").trim();
 				} else if (this.getSubmittalNo().contains("Submittal -")) {
-					this.submittalNo = this.submittalNo.replace("Submittal -", "");
+					this.submittalNo = this.submittalNo.replace("Submittal -", "").trim();
 				} else if (this.getSubmittalNo().contains("Submittal")) {
-					this.submittalNo = this.submittalNo.replace("Submittal", "");
+					this.submittalNo = this.submittalNo.replace("Submittal", "").trim();
 				}
 			} else if (index.equalsIgnoreCase("description")) {
-				this.description = getValueFromRegexValidation(this.regex.getRegexList().get(index), editedContent);
+				this.description = getValueFromRegexValidation(this.regex.getRegexList().get(index), editedContent)
+						.trim();
 
 				if (this.getDescription().contains("Description:")) {
-					this.description = this.description.replace("Description:", "");
+					this.description = this.description.replace("Description:", "").trim();
 				}
 			} else if (index.equalsIgnoreCase("project")) {
-				this.jobName = getValueFromRegexValidation(this.regex.getRegexList().get(index), editedContent);
+				this.jobName = getValueFromRegexValidation(this.regex.getRegexList().get(index), editedContent).trim();
 
 				if (this.getJobName().contains("Project:")) {
-					this.jobName = this.jobName.replace("Project:", "");
+					this.jobName = this.jobName.replace("Project:", "").trim();
 				}
 			}
 
