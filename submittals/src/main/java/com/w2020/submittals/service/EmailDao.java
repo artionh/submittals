@@ -102,8 +102,8 @@ public class EmailDao {
 				}
 
 				InputStream inputStream = bodyPart.getInputStream();
-				File file = new File("C:/data/documents" + dateFormat.format(date) + bodyPart.getFileName());
-				atachmentsPath.add("C:/data/documents" + dateFormat.format(date) + bodyPart.getFileName());
+				File file = new File("/tmp/documents" + dateFormat.format(date) + bodyPart.getFileName());
+				atachmentsPath.add("/tmp/documents" + dateFormat.format(date) + bodyPart.getFileName());
 				FileOutputStream outputStream = new FileOutputStream(file);
 				byte[] buffer = new byte[4096];
 				int bytesRead;
