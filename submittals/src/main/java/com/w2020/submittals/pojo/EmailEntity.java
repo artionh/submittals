@@ -62,8 +62,8 @@ public class EmailEntity {
 
 				if (this.getAction().contains("Stage:")) {
 					this.action = this.action.replace("Stage:", "");
-				} else if (this.getAction().contains("\r")) {
-					this.action = this.action.replace("\r", "");
+				} else if (this.getAction().contains("\\r")) {
+					this.action = this.action.replace("\\r", "");
 				}
 			}
 
