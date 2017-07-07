@@ -52,7 +52,7 @@ public class EmailDao {
 			Store store = session.getStore("imaps");
 			store.connect("imap.gmail.com", "w2020dev@gmail.com", "wdtvkpovupkujfhk");
 			Folder emailFolder = store.getFolder("INBOX");
-			emailFolder.open(Folder.READ_ONLY);
+			emailFolder.open(Folder.READ_WRITE);
 
 			Message[] messages = emailFolder.search(new FlagTerm(new Flags(Flag.SEEN), false));
 			System.out.println("messages.length---" + messages.length);

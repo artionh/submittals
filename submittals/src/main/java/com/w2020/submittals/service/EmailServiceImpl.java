@@ -32,7 +32,7 @@ public class EmailServiceImpl implements EmailService {
 	public ServiceResponse<List<Email>> getEmails() {
 		List<ServiceMessage> serviceMessageList = new ArrayList<ServiceMessage>();
 		List<Email> emailList = emailDao.getEmails();
-		serviceMessageList.add(new ServiceMessage("200", "fifth service message", ProblemSeverity.INFO));
+		serviceMessageList.add(new ServiceMessage("200", "This service return a list of emails", ProblemSeverity.INFO));
 		return new ServiceResponse<List<Email>>(serviceMessageList, emailList);
 	}
 

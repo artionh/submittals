@@ -62,6 +62,8 @@ public class EmailEntity {
 
 				if (this.getAction().contains("Stage:")) {
 					this.action = this.action.replace("Stage:", "");
+				} else if (this.getAction().contains("\r")) {
+					this.action = this.action.replace("\r", "");
 				}
 			}
 
@@ -72,6 +74,8 @@ public class EmailEntity {
 					this.submittalNo = this.submittalNo.replace("Submittal:", "");
 				} else if (this.getSubmittalNo().contains("Submittal -")) {
 					this.submittalNo = this.submittalNo.replace("Submittal -", "");
+				} else if (this.getSubmittalNo().contains("Submittal")) {
+					this.submittalNo = this.submittalNo.replace("Submittal", "");
 				}
 			} else if (index.equalsIgnoreCase("description")) {
 				this.description = getValueFromRegexValidation(this.regex.getRegexList().get(index), editedContent);
