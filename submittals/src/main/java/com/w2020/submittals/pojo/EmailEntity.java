@@ -34,9 +34,14 @@ public class EmailEntity {
 	public EmailEntity() {
 		this.regex = new Regex();
 		Map<String, String> regexList = new HashMap<String, String>();
-		regexList.put("submittal1", "Submittal:*\\s*-*\\s*([0-9-a-zA-Z]+)");
+		regexList.put("submittal", "Submittal\\s*[-:](\\s*[a-zA-Z0-9-]+)|submittal\\s*-(\\s[-:]*[a-zA-Z0-9-]+)");
+		
+		
 		/*
+		 * regexList.put("submittal1", "submittal:\\s+-*\\s*([0-9-a-zA-Z]+)|Submittal:+\\s+-*\\s*([0-9-a-zA-Z]+)");
+		 * general Submittal\\s*[-:](\\s*[a-zA-Z0-9-]+)|submittal\\s*-(\\s[-:]*[a-zA-Z0-9-]+)
 		 * regexList.put("submittal2", "Submittal: \\s*([^\n\r]*)");
+		 * regexList.put("submittal8", "Submittal\s*-(\s*[a-zA-Z0-9-]+)");
 		 * regexList.put("submittal3", "Submittal - (\\s*[a-zA-Z0-9-]+)");
 		 * regexList.put("submittal4",
 		 * "submittal - (?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])");
@@ -44,8 +49,10 @@ public class EmailEntity {
 		 * regexList.put("submittal6", "Submittal \\s*([^\n\r]*)");
 		 * regexList.put("submittal7", "Submittal[a-z0-9A-Z-\\s:]+");
 		 */
+		
+		
 		regexList.put("description", "Description: \\s*[0-9-]*[a-z A-Z]*-*");
-		regexList.put("project", "Project:*\\s*([^\n]*) St|Street");
+		regexList.put("project", "project\\s*[-:](\\s*[a-zA-Z0-9-\\s][^\n]+) St|Street|Project\\s*[-:](\\s*[a-zA-Z0-9-\\s][^\n]+) St|Street");
 		regexList.put("action", "Stage:*\\s*([^\n]*)");
 		regex.setRegexList(regexList);
 	}

@@ -103,7 +103,7 @@ public class EmailDao {
 				}
 
 				InputStream inputStream = bodyPart.getInputStream();
-				File file = new File("/tmp/documents/" + dateFormat.format(date) + bodyPart.getFileName());
+				File file = new File("/var/attachments/" + bodyPart.getFileName());
 				FileOutputStream outputStream = new FileOutputStream(file);
 				byte[] buffer = new byte[4096];
 				int bytesRead;
@@ -122,7 +122,7 @@ public class EmailDao {
 		}
 
 		email.setDateRec(dateFormat1.format(message.getReceivedDate()).toString());
-		email.setDateSend(dateFormat1.format(message.getReceivedDate()).toString());
+		email.setDateSend(null);
 		String sentFrom = InternetAddress.toString(message.getFrom());
 		sentFrom = sentFrom.substring(sentFrom.indexOf('@') + 1, sentFrom.length());
 		sentFrom = sentFrom.substring(0, sentFrom.indexOf('.'));
