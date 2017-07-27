@@ -103,8 +103,7 @@ public class EmailDao {
 				}
 
 				InputStream inputStream = bodyPart.getInputStream();
-				File file = new File(new URI("file:////localhost/tmp/documents/" + dateFormat.format(date) + bodyPart.getFileName()).createNewFile();
-				//File file = new File("192.168.0.156/tmp/documents/" + dateFormat.format(date) + bodyPart.getFileName());
+				File file = new File("/tmp/documents/" + dateFormat.format(date) + bodyPart.getFileName());
 				FileOutputStream outputStream = new FileOutputStream(file);
 				byte[] buffer = new byte[4096];
 				int bytesRead;
