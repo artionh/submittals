@@ -28,7 +28,7 @@ public class EmailController {
 	@Autowired
 	EmailService emailService;
 
-	@RequestMapping(value = "/getEmails", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/getEmails", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ServiceResponse<List<Email>>> getFrStreetByIDStreets() throws Exception {
 
 		ServiceResponse<List<Email>> result = emailService.getEmails();
